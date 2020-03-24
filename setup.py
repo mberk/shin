@@ -1,9 +1,14 @@
 from setuptools import setup
 
+with open('README.md', 'r') as f:
+    long_description = f.read()
+
 setup(
     name='shin',
     version='0.0.1',
     description='Python implementation of Shin\'s method for calculating implied probabilities from bookmaker odds',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     author='Maurice Berk',
     author_email='maurice@mauriceberk.com',
     url='https://github.com/mberk/shin',
