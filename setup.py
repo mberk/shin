@@ -13,5 +13,11 @@ setup(
     author_email='maurice@mauriceberk.com',
     url='https://github.com/mberk/shin',
     packages=['shin'],
-    tests_require=['pytest']
+    tests_require=['pytest'],
+    classifiers=[
+        'Programming Language :: Python :: 3',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
+    ],
+    python_requires='>=3.5',
 )
