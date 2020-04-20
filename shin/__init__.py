@@ -16,11 +16,19 @@ def calculate_implied_probabilities(
     delta = float('Inf')
     iterations = 0
 
-    while delta > convergence_threshold and iterations < max_iterations:
-        z0 = z
-        z = (sum(sqrt(z ** 2 + 4 * (1 - z) * io ** 2 / sum_inverse_odds) for io in inverse_odds) - 2) / (n - 2)
-        delta = abs(z - z0)
-        iterations += 1
+    if n == 2:
+        diff_inverse_odds = inverse_odds[0] - inverse_odds[1]
+        z = (
+                ((sum_inverse_odds - 1) * (diff_inverse_odds ** 2 - sum_inverse_odds)) /
+                (sum_inverse_odds * (diff_inverse_odds ** 2 - 1))
+        )
+        delta = 0
+    else:
+        while delta > convergence_threshold and iterations < max_iterations:
+            z0 = z
+            z = (sum(sqrt(z ** 2 + 4 * (1 - z) * io ** 2 / sum_inverse_odds) for io in inverse_odds) - 2) / (n - 2)
+            delta = abs(z - z0)
+            iterations += 1
 
     p = [(sqrt(z ** 2 + 4 * (1 - z) * io ** 2 / sum_inverse_odds) - z) / (2 * (1 - z)) for io in inverse_odds]
     return {
