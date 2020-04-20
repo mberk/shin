@@ -28,5 +28,6 @@ def test_calculate_implied_probabilities():
     assert result['iterations'] == 0
     assert result['delta'] == 0
 
+    # With two outcomes, Shin is equivalent to the Additive Method described in Clarke et al. (2017)
     assert pytest.approx(inverse_odds[0] - (sum_inverse_odds - 1) / 2) == result['implied_probabilities'][0]
     assert pytest.approx(inverse_odds[1] - (sum_inverse_odds - 1) / 2) == result['implied_probabilities'][1]
