@@ -6,6 +6,9 @@ def calculate_implied_probabilities(
         odds: Sequence[float],
         max_iterations: int = 1000,
         convergence_threshold: float = 1e-12) -> dict:
+    if len(odds) < 2:
+        raise ValueError('len(odds) must be >= 2')
+
     if any(o < 1 for o in odds):
         raise ValueError('All odds must be >= 1')
 
