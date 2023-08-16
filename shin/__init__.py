@@ -1,12 +1,14 @@
 from collections.abc import Collection
 from math import sqrt
+from typing import Any, Union
 
 
 def calculate_implied_probabilities(
     odds: Collection[float],
     max_iterations: int = 1000,
     convergence_threshold: float = 1e-12,
-) -> dict:
+    only_return_probabilities: bool = False,
+) -> Union[dict[str, Any], list[float]]:
     if len(odds) < 2:
         raise ValueError("len(odds) must be >= 2")
 
@@ -43,9 +45,13 @@ def calculate_implied_probabilities(
         (sqrt(z**2 + 4 * (1 - z) * io**2 / sum_inverse_odds) - z) / (2 * (1 - z))
         for io in inverse_odds
     ]
-    return {
-        "implied_probabilities": p,
-        "iterations": iterations,
-        "delta": delta,
-        "z": z,
-    }
+
+    if only_return_probabilities:
+        return p
+    else:
+        return {
+            "implied_probabilities": p,
+            "iterations": iterations,
+            "delta": delta,
+            "z": z,
+        }
