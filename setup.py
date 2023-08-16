@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setup(
     name="shin",
-    version="0.0.2",
+    version="0.1.0",
     description="Python implementation of Shin's method for calculating implied probabilities from bookmaker odds",
     long_description=long_description,
     long_description_content_type="text/markdown",
