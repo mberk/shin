@@ -1,9 +1,9 @@
+from collections.abc import Collection
 from math import sqrt
-from typing import Sequence
 
 
 def calculate_implied_probabilities(
-    odds: Sequence[float],
+    odds: Collection[float],
     max_iterations: int = 1000,
     convergence_threshold: float = 1e-12,
 ) -> dict:
