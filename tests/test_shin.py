@@ -20,6 +20,13 @@ def test_calculate_implied_probabilities():
     assert pytest.approx(0.2222265) == result["implied_probabilities"][2]
     assert pytest.approx(0.01694251) == result["z"]
 
+    result = shin.calculate_implied_probabilities(
+        [2.6, 2.4, 4.3], only_return_probabilities=True
+    )
+    assert pytest.approx(0.3729941) == result[0]
+    assert pytest.approx(0.4047794) == result[1]
+    assert pytest.approx(0.2222265) == result[2]
+
     odds = [1.5, 2.74]
     inverse_odds = [1 / o for o in odds]
     sum_inverse_odds = sum(inverse_odds)

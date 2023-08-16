@@ -41,6 +41,26 @@ The returned `dict` contains the following fields:
 argument (default = `1e-12`) to assess convergence
 * `z` - the estimated proportion of theoretical betting volume coming from insider traders
 
+If you don't care about convergence details, you can ask for only the probabilities to be returned:
+
+```python
+import shin
+
+shin.calculate_implied_probabilities([2.6, 2.4, 4.3], only_return_probabilities=True)
+```
+
+```
+[0.37299406033208965, 0.4047794109200184, 0.2222265287474275]
+```
+
+This is helpful if you keep finding yourself writing something like:
+
+```python
+import shin
+
+probabilities = shin.calculate_implied_probabilities([2.6, 2.4, 4.3])["implied_probabilities"]
+```
+
 ## Two outcomes 
 
 ```python
