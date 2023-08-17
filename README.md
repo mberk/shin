@@ -85,6 +85,8 @@ import shin
 probabilities = shin.calculate_implied_probabilities([2.6, 2.4, 4.3])["implied_probabilities"]
 ```
 
+This will become the default behaviour in future
+
 ### Controlling the Optimiser
 
 Starting in version 0.1.0, the iterative procedure is implemented in Rust which provides a
