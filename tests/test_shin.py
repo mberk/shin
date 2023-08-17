@@ -21,6 +21,15 @@ def test_calculate_implied_probabilities():
     assert pytest.approx(0.01694251) == result["z"]
 
     result = shin.calculate_implied_probabilities(
+        [2.6, 2.4, 4.3], force_python_optimiser=True
+    )
+
+    assert pytest.approx(0.3729941) == result["implied_probabilities"][0]
+    assert pytest.approx(0.4047794) == result["implied_probabilities"][1]
+    assert pytest.approx(0.2222265) == result["implied_probabilities"][2]
+    assert pytest.approx(0.01694251) == result["z"]
+
+    result = shin.calculate_implied_probabilities(
         [2.6, 2.4, 4.3], only_return_probabilities=True
     )
     assert pytest.approx(0.3729941) == result[0]
