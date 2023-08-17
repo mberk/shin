@@ -1,0 +1,20 @@
+[build-system]
+requires = ["maturin>=0.13,<0.14"]
+build-backend = "maturin"
+
+[project]
+name = "shin"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+version = "0.1.0"
+description = "Python implementation of Shin's method for calculating implied probabilities from bookmaker odds"
+author = "Maurice Berk"
+author_email = "maurice@mauriceberk.com"
+url = "https://github.com/mberk/shin"
+readme = "README.md"

@@ -1,3 +1,5 @@
+/target
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -25,3 +27,9 @@ wheels/
 # IntelliJ
 *.iml
 .idea/
+
+# Unit test / coverage reports
+.coverage
+
+# C extensions
+*.so
