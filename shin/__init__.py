@@ -3,6 +3,30 @@ from math import sqrt
 from typing import Any, Union
 
 
+def _optimise(
+    inverse_odds: list[float],
+    sum_inverse_odds: float,
+    n: int,
+    max_iterations: int = 1000,
+    convergence_threshold: float = 1e-12,
+) -> tuple[float, float, float]:
+    delta = float("Inf")
+    z = 0
+    iterations = 0
+    while delta > convergence_threshold and iterations < max_iterations:
+        z0 = z
+        z = (
+            sum(
+                sqrt(z**2 + 4 * (1 - z) * io**2 / sum_inverse_odds)
+                for io in inverse_odds
+            )
+            - 2
+        ) / (n - 2)
+        delta = abs(z - z0)
+        iterations += 1
+    return z, delta, iterations
+
+
 def calculate_implied_probabilities(
     odds: Collection[float],
     max_iterations: int = 1000,
@@ -15,12 +39,9 @@ def calculate_implied_probabilities(
     if any(o < 1 for o in odds):
         raise ValueError("All odds must be >= 1")
 
-    z = 0
     n = len(odds)
     inverse_odds = [1.0 / o for o in odds]
     sum_inverse_odds = sum(inverse_odds)
-    delta = float("Inf")
-    iterations = 0
 
     if n == 2:
         diff_inverse_odds = inverse_odds[0] - inverse_odds[1]
@@ -28,18 +49,15 @@ def calculate_implied_probabilities(
             sum_inverse_odds * (diff_inverse_odds**2 - 1)
         )
         delta = 0
+        iterations = 0
     else:
-        while delta > convergence_threshold and iterations < max_iterations:
-            z0 = z
-            z = (
-                sum(
-                    sqrt(z**2 + 4 * (1 - z) * io**2 / sum_inverse_odds)
-                    for io in inverse_odds
-                )
-                - 2
-            ) / (n - 2)
-            delta = abs(z - z0)
-            iterations += 1
+        z, delta, iterations = _optimise(
+            inverse_odds=inverse_odds,
+            sum_inverse_odds=sum_inverse_odds,
+            n=n,
+            max_iterations=max_iterations,
+            convergence_threshold=convergence_threshold,
+        )
 
     p = [
         (sqrt(z**2 + 4 * (1 - z) * io**2 / sum_inverse_odds) - z) / (2 * (1 - z))
