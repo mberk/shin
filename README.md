@@ -7,7 +7,7 @@ of dividing the inverse odds by the booksum [[3](#3)].
 
 # Installation
 
-Requires Python 3.6 or above.
+Requires Python 3.7 or above.
 
 ```
 pip install shin
@@ -41,6 +41,30 @@ The returned `dict` contains the following fields:
 argument (default = `1e-12`) to assess convergence
 * `z` - the estimated proportion of theoretical betting volume coming from insider traders
 
+## Two outcomes 
+
+```python
+import shin
+
+shin.calculate_implied_probabilities([1.5, 2.74])
+```
+
+```
+{'implied_probabilities': [0.6508515815085157, 0.3491484184914841],
+ 'iterations': 0,
+ 'delta': 0,
+ 'z': 0.03172728540646625}
+```
+
+When there are only two outcomes, `z` can be calculated analytically [[3](#3)]. In this case, the `iterations` and
+`delta` fields of the returned `dict` are `0` to reflect this.
+
+Note that with two outcomes, Shin's method is equivalent to the Additive Method of [[4](#4)].
+
+## Advanced Usage
+
+### Only Return Probabilities
+
 If you don't care about convergence details, you can ask for only the probabilities to be returned:
 
 ```python
@@ -61,25 +85,37 @@ import shin
 probabilities = shin.calculate_implied_probabilities([2.6, 2.4, 4.3])["implied_probabilities"]
 ```
 
-## Two outcomes 
+### Controlling the Optimiser
+
+Starting in version 0.1.0, the iterative procedure is implemented in Rust which provides a
+considerable performance boost. If you would like to use the old Python based optimiser use the
+`force_python_optimiser` argument to `calculate_implied_probabilities`
 
 ```python
-import shin
-
-shin.calculate_implied_probabilities([1.5, 2.74])
+import timeit
+timeit.timeit(
+    "shin.calculate_implied_probabilities([2.6, 2.4, 4.3], force_python_optimiser=True)",
+    setup="import shin",
+    number=10000
+)
 ```
 
 ```
-{'implied_probabilities': [0.6508515815085157, 0.3491484184914841],
- 'iterations': 0,
- 'delta': 0,
- 'z': 0.03172728540646625}
+3.9101167659973726
 ```
 
-When there are only two outcomes, `z` can be calculated analytically [[3](#3)]. In this case, the `iterations` and
-`delta` fields of the returned `dict` are `0` to reflect this.
+```python
+import timeit
+timeit.timeit(
+    "shin.calculate_implied_probabilities([2.6, 2.4, 4.3])",
+    setup="import shin",
+    number=10000
+)
+```
 
-Note that with two outcomes, Shin's method is equivalent to the Additive Method of [[4](#4)].  
+```
+0.14442387002054602
+```
 
 # References
 
