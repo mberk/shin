@@ -15,7 +15,70 @@ pip install shin
 
 # Usage
 
-## Three or more outcomes
+```python
+import shin
+
+shin.calculate_implied_probabilities([2.6, 2.4, 4.3])
+```
+
+```
+[0.37299406033208965, 0.4047794109200184, 0.2222265287474275]
+```
+
+Shin's method assumes there is some unknown proportion of bettors that are insiders, `z`, and this proportion along with
+the implied probabilities can be estimated using an iterative procedure described in [[4](#4)].
+
+Diagnostic information from the iterative procedure can be obtained by setting the `full_output` argument to `True`:
+
+```python
+import shin
+
+shin.calculate_implied_probabilities([2.6, 2.4, 4.3], full_output=True)
+```
+
+```
+{'implied_probabilities': [0.37299406033208965,
+  0.4047794109200184,
+  0.2222265287474275],
+ 'iterations': 425,
+ 'delta': 9.667822098435863e-13,
+ 'z': 0.01694251276407055}
+```
+
+The returned `dict` contains the following fields:
+
+* `implied_probablities`
+* `iterations` - compare this value to the `max_iterations` argument (default = `1000`) to check for failed convergence
+* `delta` - the final change in `z` for the final iteration. Compare with the `convergence_threshold` argument
+  (default = `1e-12`) to assess convergence
+* `z` - the estimated proportion of theoretical betting volume coming from insider traders
+
+When there are only two outcomes, `z` can be calculated analytically [[3](#3)]. In this case, the `iterations` and
+`delta` fields of the returned `dict` are `0` to reflect this:
+
+```python
+import shin
+
+shin.calculate_implied_probabilities([1.5, 2.74], full_output=True)
+```
+
+```
+{'implied_probabilities': [0.6508515815085157, 0.3491484184914841],
+ 'iterations': 0,
+ 'delta': 0,
+ 'z': 0.03172728540646625}
+```
+
+Note that with two outcomes, Shin's method is equivalent to the Additive Method of [[4](#4)].
+
+# What's New in Version 0.1.0?
+
+The latest version introduces some substantial changes and breaking API changes.
+
+## Default Return Value Behaviour
+
+Previously `shin.calculate_implied_probabilities` would return a `dict` that contained convergence details of the
+iterative fitting procedure along with the implied probabilities:
 
 ```python
 import shin
@@ -32,66 +95,39 @@ shin.calculate_implied_probabilities([2.6, 2.4, 4.3])
  'z': 0.01694251276407055}
 ```
 
-The returned `dict` contains the following fields:
-
-* `implied_probablities`
-* `iterations` - with three or more outcomes, Shin's method uses an iterative procedure. Compare this value to the
-`max_iterations` argument (default = `1000`) to check for failed convergence
-* `delta` - the final change in `z` (see below) for the final iteration. Compare with the `convergence_threshold`
-argument (default = `1e-12`) to assess convergence
-* `z` - the estimated proportion of theoretical betting volume coming from insider traders
-
-## Two outcomes 
+The default behaviour now is for the function to only return the implied probabilities:
 
 ```python
 import shin
 
-shin.calculate_implied_probabilities([1.5, 2.74])
-```
-
-```
-{'implied_probabilities': [0.6508515815085157, 0.3491484184914841],
- 'iterations': 0,
- 'delta': 0,
- 'z': 0.03172728540646625}
-```
-
-When there are only two outcomes, `z` can be calculated analytically [[3](#3)]. In this case, the `iterations` and
-`delta` fields of the returned `dict` are `0` to reflect this.
-
-Note that with two outcomes, Shin's method is equivalent to the Additive Method of [[4](#4)].
-
-## Advanced Usage
-
-### Only Return Probabilities
-
-If you don't care about convergence details, you can ask for only the probabilities to be returned:
-
-```python
-import shin
-
-shin.calculate_implied_probabilities([2.6, 2.4, 4.3], only_return_probabilities=True)
+shin.calculate_implied_probabilities([2.6, 2.4, 4.3])
 ```
 
 ```
 [0.37299406033208965, 0.4047794109200184, 0.2222265287474275]
 ```
 
-This is helpful if you keep finding yourself writing something like:
+The full output can still be had by setting the `full_output` argument to `True`:
 
 ```python
 import shin
 
-probabilities = shin.calculate_implied_probabilities([2.6, 2.4, 4.3])["implied_probabilities"]
+shin.calculate_implied_probabilities([2.6, 2.4, 4.3], full_output=True)
 ```
 
-This will become the default behaviour in future
+```
+{'implied_probabilities': [0.37299406033208965,
+  0.4047794109200184,
+  0.2222265287474275],
+ 'iterations': 425,
+ 'delta': 9.667822098435863e-13,
+ 'z': 0.01694251276407055}
+```
 
-### Controlling the Optimiser
+## Controlling the Optimiser
 
-Starting in version 0.1.0, the iterative procedure is implemented in Rust which provides a
-considerable performance boost. If you would like to use the old Python based optimiser use the
-`force_python_optimiser` argument to `calculate_implied_probabilities`
+Starting in version 0.1.0, the iterative procedure is implemented in Rust which provides a  considerable performance
+boost. If you would like to use the old Python based optimiser use the `force_python_optimiser` argument:
 
 ```python
 import timeit
@@ -136,7 +172,11 @@ Market for State-Contingent Claims”. The Economic Journal,
 International Journal of Forecasting, 2014, Volume 30, Issue 4,
 pp. 934-943.](https://doi.org/10.1016/j.ijforecast.2014.02.008)
 
-<a id="3">[4]</a>
+<a id="4">[4]</a>
+[B. Jullien and B. Salanié, "Measuring the Incidence of Insider Trading: A Comment on Shin".
+The Economic Journal, 1994, 104(427), pp. 1418–1419](https://doi.org/10.2307/2235458)
+
+<a id="5">[5]</a>
 [S. Clarke, S. Kovalchik, M. Ingram, "Adjusting bookmaker’s odds to allow for
 overround". American Journal of Sports Science, 2017, Volume 5, Issue 6,
 pp. 45-49.](https://doi.org/10.11648/j.ajss.20170506.12)
