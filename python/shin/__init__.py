@@ -1,4 +1,5 @@
 from collections.abc import Collection
+from collections.abc import Mapping
 from math import sqrt
 from typing import Any, Union
 
@@ -31,12 +32,20 @@ def _optimise(
 
 
 def calculate_implied_probabilities(
-    odds: Collection[float],
+    odds: Union[Collection[float], Mapping[Any, float]],
     max_iterations: int = 1000,
     convergence_threshold: float = 1e-12,
     full_output: bool = False,
     force_python_optimiser: bool = False,
-) -> Union[dict[str, Any], list[float]]:
+) -> Union[dict[str, Any], list[float], dict[Any, float]]:
+    if isinstance(odds, Mapping):
+        keys = odds.keys()
+        odds = odds.values()
+        _class = odds.__class__
+    else:
+        keys = None
+        _class = None
+
     if len(odds) < 2:
         raise ValueError("len(odds) must be >= 2")
 
@@ -69,6 +78,8 @@ def calculate_implied_probabilities(
         (sqrt(z ** 2 + 4 * (1 - z) * io ** 2 / sum_inverse_odds) - z) / (2 * (1 - z))
         for io in inverse_odds
     ]
+    if keys is not None:
+        p = {k: v for k, v in zip(keys, p)}
 
     if full_output:
         return {

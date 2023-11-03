@@ -124,6 +124,41 @@ shin.calculate_implied_probabilities([2.6, 2.4, 4.3], full_output=True)
  'z': 0.01694251276407055}
 ```
 
+## Passing Mappings
+
+A common scenario is to have a mapping between some selection identifiers and their odds. You can now pass such
+mappings to `shin.calculate_implied_probabilities` and have a new `dict` mapping between the selection identifiers and
+their probabilities returned:
+
+```python
+import shin
+
+shin.calculate_implied_probabilities({"HOME": 2.6, "AWAY": 2.4, "DRAW": 4.3})
+```
+
+```
+{'HOME': 0.37299406033208965,
+ 'AWAY': 0.4047794109200184,
+ 'DRAW': 0.2222265287474275}
+```
+
+This also works when asking for the full output to be returned:
+
+```python
+import shin
+
+shin.calculate_implied_probabilities({"HOME": 2.6, "AWAY": 2.4, "DRAW": 4.3}, full_output=True)
+```
+
+```
+{'implied_probabilities': {'HOME': 0.37299406033208965,
+  'AWAY': 0.4047794109200184,
+  'DRAW': 0.2222265287474275},
+ 'iterations': 426,
+ 'delta': 9.667822098435863e-13,
+ 'z': 0.01694251276407055}
+```
+
 ## Controlling the Optimiser
 
 Starting in version 0.1.0, the iterative procedure is implemented in Rust which provides a  considerable performance
