@@ -69,7 +69,7 @@ shin.calculate_implied_probabilities([1.5, 2.74], full_output=True)
  'z': 0.03172728540646625}
 ```
 
-Note that with two outcomes, Shin's method is equivalent to the Additive Method of [[4](#4)].
+Note that with two outcomes, Shin's method is equivalent to the Additive Method of [[5](#5)].
 
 # What's New in Version 0.1.0?
 
