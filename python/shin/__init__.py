@@ -21,7 +21,7 @@ def _optimise(
         z0 = z
         z = (
             sum(
-                sqrt(z ** 2 + 4 * (1 - z) * io ** 2 / sum_inverse_odds)
+                sqrt(z**2 + 4 * (1 - z) * io**2 / sum_inverse_odds)
                 for io in inverse_odds
             )
             - 2
@@ -60,8 +60,8 @@ def calculate_implied_probabilities(
 
     if n == 2:
         diff_inverse_odds = inverse_odds[0] - inverse_odds[1]
-        z = ((sum_inverse_odds - 1) * (diff_inverse_odds ** 2 - sum_inverse_odds)) / (
-            sum_inverse_odds * (diff_inverse_odds ** 2 - 1)
+        z = ((sum_inverse_odds - 1) * (diff_inverse_odds**2 - sum_inverse_odds)) / (
+            sum_inverse_odds * (diff_inverse_odds**2 - 1)
         )
         delta = 0
         iterations = 0
@@ -75,7 +75,7 @@ def calculate_implied_probabilities(
         )
 
     p = [
-        (sqrt(z ** 2 + 4 * (1 - z) * io ** 2 / sum_inverse_odds) - z) / (2 * (1 - z))
+        (sqrt(z**2 + 4 * (1 - z) * io**2 / sum_inverse_odds) - z) / (2 * (1 - z))
         for io in inverse_odds
     ]
     if keys is not None:
