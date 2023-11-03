@@ -22,15 +22,17 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Run maturin build
-        uses: messense/maturin-action@v1
+        uses: PyO3/maturin-action@v1
         with:
           manylinux: auto
           command: build
-          args: --release --sdist -o dist --find-interpreter
+          args: --release --sdist -o dist --find-interpreter -i python${{ matrix.python-version }}
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements-test.txt
+      - name: Install package
+        run: python3 -m pip install --user dist/shin*.tar.gz
       - name: Lint with black
         run: |
           black . --check
