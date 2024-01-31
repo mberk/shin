@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
 from math import sqrt
-from typing import Any
+from typing import Any, Literal, overload
 
 from .shin import optimise as _optimise_rust
 
@@ -31,8 +31,48 @@ def _optimise(
     return z, delta, iterations
 
 
+# sequence input, full output False
+@overload
+def calculate_implied_probabilities(
+    odds: Sequence[float],
+    *,
+    max_iterations: int = ...,
+    convergence_threshold: float = ...,
+    full_output: Literal[False] = False,
+    force_python_optimiser: bool = ...,
+) -> list[float]:
+    ...
+
+
+# mapping, full output False
+@overload
+def calculate_implied_probabilities(
+    odds: Mapping[Any, float],
+    *,
+    max_iterations: int = ...,
+    convergence_threshold: float = ...,
+    full_output: Literal[False] = False,
+    force_python_optimiser: bool = ...,
+) -> dict[Any, float]:
+    ...
+
+
+# full output True
+@overload
 def calculate_implied_probabilities(
     odds: Sequence[float] | Mapping[Any, float],
+    *,
+    max_iterations: int = ...,
+    convergence_threshold: float = ...,
+    full_output: Literal[True],
+    force_python_optimiser: bool = ...,
+) -> dict[str, Any]:
+    ...
+
+
+def calculate_implied_probabilities(
+    odds: Sequence[float] | Mapping[Any, float],
+    *,
     max_iterations: int = 1000,
     convergence_threshold: float = 1e-12,
     full_output: bool = False,
