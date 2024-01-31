@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from math import sqrt
-from typing import Generic, Literal, TypeVar, overload
+from typing import Any, Generic, Literal, TypeVar, overload
 
 from .shin import optimise as _optimise_rust
 
