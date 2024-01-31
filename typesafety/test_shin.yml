@@ -1,0 +1,3 @@
+- case: test_lib_typing
+  main: |
+    import shin
