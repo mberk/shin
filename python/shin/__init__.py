@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
+from dataclasses import dataclass
 from math import sqrt
-from typing import Any, Literal, TypeVar, overload
+from typing import Any, Generic, Literal, TypeAlias, TypeVar, overload
 
 from .shin import optimise as _optimise_rust
 
 T = TypeVar("T")
+OutputT = TypeVar("OutputT", bound="list[float] | dict[Any, float]")
 
 
 def _optimise(
@@ -31,6 +33,14 @@ def _optimise(
         delta = abs(z - z0)
         iterations += 1
     return z, delta, iterations
+
+
+@dataclass
+class FullOutput(Generic[OutputT]):
+    implied_probabilities: OutputT
+    iterations: float
+    delta: float
+    z: float
 
 
 # sequence input, full output False
@@ -59,16 +69,29 @@ def calculate_implied_probabilities(
     ...
 
 
-# full output True
+# sequence, full output True
 @overload
 def calculate_implied_probabilities(
-    odds: Sequence[float] | Mapping[Any, float],
+    odds: Sequence[float],
     *,
     max_iterations: int = ...,
     convergence_threshold: float = ...,
     full_output: Literal[True],
     force_python_optimiser: bool = ...,
-) -> dict[str, Any]:
+) -> FullOutput[list[float]]:
+    ...
+
+
+# mapping, full output True
+@overload
+def calculate_implied_probabilities(
+    odds: Mapping[T, float],
+    *,
+    max_iterations: int = ...,
+    convergence_threshold: float = ...,
+    full_output: Literal[True],
+    force_python_optimiser: bool = ...,
+) -> FullOutput[dict[T, float]]:
     ...
 
 
@@ -79,7 +102,7 @@ def calculate_implied_probabilities(
     convergence_threshold: float = 1e-12,
     full_output: bool = False,
     force_python_optimiser: bool = False,
-) -> dict[str, Any] | list[float] | dict[T, float]:
+) -> FullOutput[list[float]] | FullOutput[dict[T, float]] | list[float] | dict[T, float]:
     odds_seq = odds.values() if isinstance(odds, Mapping) else odds
 
     if len(odds_seq) < 2:
@@ -110,19 +133,27 @@ def calculate_implied_probabilities(
             convergence_threshold=convergence_threshold,
         )
 
-    p: list[float] | dict[Any, float] = [
+    p_gen = (
         (sqrt(z**2 + 4 * (1 - z) * io**2 / sum_inverse_odds) - z) / (2 * (1 - z))
         for io in inverse_odds
-    ]
+    )
     if isinstance(odds, Mapping):
-        p = {k: v for k, v in zip(odds, p)}
+        d = {k: v for k, v in zip(odds, p_gen)}
+        if full_output:
+            return FullOutput(
+                implied_probabilities=d,
+                iterations=iterations,
+                delta=delta,
+                z=z,
+            )
+        return d
 
+    l = list(p_gen)
     if full_output:
-        return {
-            "implied_probabilities": p,
-            "iterations": iterations,
-            "delta": delta,
-            "z": z,
-        }
-    else:
-        return p
+        return FullOutput(
+            implied_probabilities=l,
+            iterations=iterations,
+            delta=delta,
+            z=z,
+        )
+    return l
