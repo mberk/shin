@@ -20,7 +20,7 @@
       
     reveal_type(shin.calculate_implied_probabilities({1: 3.0, 2: 3.0, 3: 3.0}))
   out: |
-      main:3: note: Revealed type is "builtins.dict[Any, builtins.float]"
+      main:3: note: Revealed type is "builtins.dict[builtins.int, builtins.float]"
 
 - case: test_sequence_input_full_output_overload
   main: |

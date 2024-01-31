@@ -2,9 +2,11 @@ from __future__ import annotations
 
 from collections.abc import Mapping, Sequence
 from math import sqrt
-from typing import Any, Literal, overload
+from typing import Any, Literal, TypeVar, overload
 
 from .shin import optimise as _optimise_rust
+
+T = TypeVar("T")
 
 
 def _optimise(
@@ -47,13 +49,13 @@ def calculate_implied_probabilities(
 # mapping, full output False
 @overload
 def calculate_implied_probabilities(
-    odds: Mapping[Any, float],
+    odds: Mapping[T, float],
     *,
     max_iterations: int = ...,
     convergence_threshold: float = ...,
     full_output: Literal[False] = False,
     force_python_optimiser: bool = ...,
-) -> dict[Any, float]:
+) -> dict[T, float]:
     ...
 
 
@@ -71,13 +73,13 @@ def calculate_implied_probabilities(
 
 
 def calculate_implied_probabilities(
-    odds: Sequence[float] | Mapping[Any, float],
+    odds: Sequence[float] | Mapping[T, float],
     *,
     max_iterations: int = 1000,
     convergence_threshold: float = 1e-12,
     full_output: bool = False,
     force_python_optimiser: bool = False,
-) -> dict[str, Any] | list[float] | dict[Any, float]:
+) -> dict[str, Any] | list[float] | dict[T, float]:
     odds_seq = odds.values() if isinstance(odds, Mapping) else odds
 
     if len(odds_seq) < 2:
