@@ -26,14 +26,20 @@
   main: |
       import shin
       
-      reveal_type(shin.calculate_implied_probabilities([3.0, 3.0, 3.0], full_output=True))
+      out = shin.calculate_implied_probabilities([3.0, 3.0, 3.0], full_output=True)
+      reveal_type(out)
+      reveal_type(out.implied_probabilities)
   out: |
-      main:3: note: Revealed type is "shin.FullOutput[builtins.list[builtins.float]]"
+      main:4: note: Revealed type is "shin.FullOutput[builtins.list[builtins.float]]"
+      main:5: note: Revealed type is "builtins.list[builtins.float]"
 
 - case: test_mapping_input_full_output_overload
   main: |
       import shin
       
-      reveal_type(shin.calculate_implied_probabilities({1: 3.0, 2: 3.0, 3: 3.0}, full_output=True))
+      out = shin.calculate_implied_probabilities({1: 3.0, 2: 3.0, 3: 3.0}, full_output=True)
+      reveal_type(out)
+      reveal_type(out.implied_probabilities)
   out: |
-      main:3: note: Revealed type is "shin.FullOutput[builtins.dict[builtins.int, builtins.float]]"
+      main:4: note: Revealed type is "shin.FullOutput[builtins.dict[builtins.int, builtins.float]]"
+      main:5: note: Revealed type is "builtins.dict[builtins.int, builtins.float]"
