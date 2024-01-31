@@ -15,7 +15,7 @@ def _optimise(
     convergence_threshold: float = 1e-12,
 ) -> tuple[float, float, float]:
     delta = float("Inf")
-    z = 0
+    z = 0.0
     iterations = 0
     while delta > convergence_threshold and iterations < max_iterations:
         z0 = z
@@ -63,8 +63,8 @@ def calculate_implied_probabilities(
         z = ((sum_inverse_odds - 1) * (diff_inverse_odds**2 - sum_inverse_odds)) / (
             sum_inverse_odds * (diff_inverse_odds**2 - 1)
         )
-        delta = 0
-        iterations = 0
+        delta = 0.0
+        iterations = 0.0
     else:
         z, delta, iterations = optimise(
             inverse_odds=inverse_odds,
