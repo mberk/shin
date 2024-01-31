@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from collections.abc import Collection
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from math import sqrt
 from typing import Any
 
@@ -33,7 +32,7 @@ def _optimise(
 
 
 def calculate_implied_probabilities(
-    odds: Collection[float] | Mapping[Any, float],
+    odds: Sequence[float] | Mapping[Any, float],
     max_iterations: int = 1000,
     convergence_threshold: float = 1e-12,
     full_output: bool = False,
