@@ -38,24 +38,18 @@ def calculate_implied_probabilities(
     full_output: bool = False,
     force_python_optimiser: bool = False,
 ) -> Union[dict[str, Any], list[float], dict[Any, float]]:
-    if isinstance(odds, Mapping):
-        keys = odds.keys()
-        odds = odds.values()
-        _class = odds.__class__
-    else:
-        keys = None
-        _class = None
+    odds_seq = odds.values() if isinstance(odds, Mapping) else odds
 
-    if len(odds) < 2:
+    if len(odds_seq) < 2:
         raise ValueError("len(odds) must be >= 2")
 
-    if any(o < 1 for o in odds):
+    if any(o < 1 for o in odds_seq):
         raise ValueError("All odds must be >= 1")
 
     optimise = _optimise if force_python_optimiser else _optimise_rust
 
-    n = len(odds)
-    inverse_odds = [1.0 / o for o in odds]
+    n = len(odds_seq)
+    inverse_odds = [1.0 / o for o in odds_seq]
     sum_inverse_odds = sum(inverse_odds)
 
     if n == 2:
@@ -78,8 +72,8 @@ def calculate_implied_probabilities(
         (sqrt(z**2 + 4 * (1 - z) * io**2 / sum_inverse_odds) - z) / (2 * (1 - z))
         for io in inverse_odds
     ]
-    if keys is not None:
-        p = {k: v for k, v in zip(keys, p)}
+    if isinstance(odds, Mapping):
+        p = {k: v for k, v in zip(odds, p)}
 
     if full_output:
         return {
