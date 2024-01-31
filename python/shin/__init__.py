@@ -74,7 +74,7 @@ def calculate_implied_probabilities(
             convergence_threshold=convergence_threshold,
         )
 
-    p = [
+    p: Union[list[float], dict[Any, float]] = [
         (sqrt(z**2 + 4 * (1 - z) * io**2 / sum_inverse_odds) - z) / (2 * (1 - z))
         for io in inverse_odds
     ]
