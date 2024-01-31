@@ -1,3 +1,7 @@
-- case: test_lib_typing
+- case: test_shin_stub
   main: |
-    import shin
+    from shin import shin
+    
+    reveal_type(shin.optimise)
+  out: |
+    main:3: note: Revealed type is "def (inverse_odds: builtins.list[builtins.float], sum_inverse_odds: builtins.float, n: builtins.int, max_iterations: builtins.int =, convergence_threshold: builtins.float =) -> tuple[builtins.float, builtins.float, builtins.float]"
