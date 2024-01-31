@@ -28,7 +28,7 @@
       
       reveal_type(shin.calculate_implied_probabilities([3.0, 3.0, 3.0], full_output=True))
   out: |
-      main:3: note: Revealed type is "builtins.dict[builtins.str, Any]"
+      main:3: note: Revealed type is "shin.FullOutput[builtins.list[builtins.float]]"
 
 - case: test_mapping_input_full_output_overload
   main: |
@@ -36,4 +36,4 @@
       
       reveal_type(shin.calculate_implied_probabilities({1: 3.0, 2: 3.0, 3: 3.0}, full_output=True))
   out: |
-      main:3: note: Revealed type is "builtins.dict[builtins.str, Any]"
+      main:3: note: Revealed type is "shin.FullOutput[builtins.dict[builtins.int, builtins.float]]"
