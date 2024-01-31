@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from math import sqrt
-from typing import Any, Generic, Literal, TypeAlias, TypeVar, overload
+from typing import Generic, Literal, TypeVar, overload
 
 from .shin import optimise as _optimise_rust
 
@@ -102,7 +102,9 @@ def calculate_implied_probabilities(
     convergence_threshold: float = 1e-12,
     full_output: bool = False,
     force_python_optimiser: bool = False,
-) -> FullOutput[list[float]] | FullOutput[dict[T, float]] | list[float] | dict[T, float]:
+) -> (
+    FullOutput[list[float]] | FullOutput[dict[T, float]] | list[float] | dict[T, float]
+):
     odds_seq = odds.values() if isinstance(odds, Mapping) else odds
 
     if len(odds_seq) < 2:
