@@ -1,8 +1,9 @@
+from __future__ import annotations
+
 from collections.abc import Collection
 from collections.abc import Mapping
 from math import sqrt
-from typing import Any, Union
-
+from typing import Any
 
 from .shin import optimise as _optimise_rust
 
@@ -32,12 +33,12 @@ def _optimise(
 
 
 def calculate_implied_probabilities(
-    odds: Union[Collection[float], Mapping[Any, float]],
+    odds: Collection[float] | Mapping[Any, float],
     max_iterations: int = 1000,
     convergence_threshold: float = 1e-12,
     full_output: bool = False,
     force_python_optimiser: bool = False,
-) -> Union[dict[str, Any], list[float], dict[Any, float]]:
+) -> dict[str, Any] | list[float] | dict[Any, float]:
     odds_seq = odds.values() if isinstance(odds, Mapping) else odds
 
     if len(odds_seq) < 2:
@@ -68,7 +69,7 @@ def calculate_implied_probabilities(
             convergence_threshold=convergence_threshold,
         )
 
-    p: Union[list[float], dict[Any, float]] = [
+    p: list[float] | dict[Any, float] = [
         (sqrt(z**2 + 4 * (1 - z) * io**2 / sum_inverse_odds) - z) / (2 * (1 - z))
         for io in inverse_odds
     ]
