@@ -20,7 +20,7 @@ url = "https://github.com/mberk/shin"
 readme = "README.md"
 
 [tool.mypy]
-python_version = "3.8"
+python_version = "3.9"
 packages = ["shin", "tests"]
 enable_error_code = [
     "explicit-override",
