@@ -87,4 +87,4 @@ def test_full_output_get_item_interface() -> None:
     assert full_output["delta"] == 0.1
     assert full_output["z"] == 0.5
     with pytest.raises(KeyError):
-        full_output["foo"]
+        full_output["foo"]  # type: ignore[call-overload]
