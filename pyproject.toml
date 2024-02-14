@@ -18,3 +18,22 @@ author = "Maurice Berk"
 author_email = "maurice@mauriceberk.com"
 url = "https://github.com/mberk/shin"
 readme = "README.md"
+
+[tool.mypy]
+python_version = "3.8"
+packages = ["shin", "tests"]
+enable_error_code = [
+    "explicit-override",
+    "ignore-without-code",
+    "possibly-undefined",
+    "redundant-expr",
+    "redundant-self",
+    "truthy-bool",
+    "truthy-iterable",
+    "unimported-reveal",
+    "unused-awaitable",
+]
+disallow_any_unimported = true
+show_error_codes = true
+strict = true
+warn_unreachable = true
