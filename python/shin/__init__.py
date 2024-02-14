@@ -58,7 +58,9 @@ class FullOutput(Generic[OutputT]):
     def __getitem__(self, key: Literal["z"]) -> float:
         ...
 
-    def __getitem__(self, key: Literal["implied_probabilities", "iterations", "delta", "z"]) -> Any:
+    def __getitem__(
+        self, key: Literal["implied_probabilities", "iterations", "delta", "z"]
+    ) -> Any:
         try:
             return getattr(self, key)
         except AttributeError:
