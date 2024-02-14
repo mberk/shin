@@ -42,6 +42,28 @@ class FullOutput(Generic[OutputT]):
     delta: float
     z: float
 
+    @overload
+    def __getitem__(self, key: Literal["implied_probabilities"]) -> OutputT:
+        ...
+
+    @overload
+    def __getitem__(self, key: Literal["iterations"]) -> float:
+        ...
+
+    @overload
+    def __getitem__(self, key: Literal["delta"]) -> float:
+        ...
+
+    @overload
+    def __getitem__(self, key: Literal["z"]) -> float:
+        ...
+
+    def __getitem__(self, key: Literal["implied_probabilities", "iterations", "delta", "z"]) -> Any:
+        try:
+            return getattr(self, key)
+        except AttributeError:
+            raise KeyError(key)
+
 
 # sequence input, full output False
 @overload

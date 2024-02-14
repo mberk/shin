@@ -43,3 +43,26 @@
   out: |
       main:4: note: Revealed type is "shin.FullOutput[builtins.dict[builtins.int, builtins.float]]"
       main:5: note: Revealed type is "builtins.dict[builtins.int, builtins.float]"
+
+- case: test_full_output_get_item_overloads
+  main: |
+      import shin
+    
+      out = shin.calculate_implied_probabilities([3.0, 3.0, 3.0], full_output=True)
+      reveal_type(out['implied_probabilities'])
+      reveal_type(out['iterations'])
+      reveal_type(out['delta'])
+      reveal_type(out['z'])
+      reveal_type(out['other'])
+  out: |
+      main:4: note: Revealed type is "builtins.list[builtins.float]"
+      main:5: note: Revealed type is "builtins.float"
+      main:6: note: Revealed type is "builtins.float"
+      main:7: note: Revealed type is "builtins.float"
+      main:8: error: No overload variant of "__getitem__" of "FullOutput" matches argument type "str"  [call-overload]
+      main:8: note: Possible overload variants:
+      main:8: note:     def __getitem__(self, Literal['implied_probabilities'], /) -> list[float]
+      main:8: note:     def __getitem__(self, Literal['iterations'], /) -> float
+      main:8: note:     def __getitem__(self, Literal['delta'], /) -> float
+      main:8: note:     def __getitem__(self, Literal['z'], /) -> float
+      main:8: note: Revealed type is "Any"
