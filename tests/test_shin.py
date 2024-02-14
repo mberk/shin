@@ -76,3 +76,15 @@ def test_calculate_implied_probabilities_two_outcomes() -> None:
         pytest.approx(inverse_odds[1] - (sum_inverse_odds - 1) / 2)
         == result.implied_probabilities[1]
     )
+
+
+def test_full_output_get_item_interface() -> None:
+    full_output = shin.FullOutput(
+        implied_probabilities=[0.3, 0.4, 0.3], iterations=10, delta=0.1, z=0.5
+    )
+    assert full_output["implied_probabilities"] == [0.3, 0.4, 0.3]
+    assert full_output["iterations"] == 10
+    assert full_output["delta"] == 0.1
+    assert full_output["z"] == 0.5
+    with pytest.raises(KeyError):
+        full_output["foo"]
