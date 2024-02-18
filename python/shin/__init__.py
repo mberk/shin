@@ -36,7 +36,7 @@ def _optimise(
 
 
 @dataclass
-class FullOutput(Generic[OutputT]):
+class ShinOptimisationDetails(Generic[OutputT]):
     implied_probabilities: OutputT
     iterations: float
     delta: float
@@ -102,7 +102,7 @@ def calculate_implied_probabilities(
     convergence_threshold: float = ...,
     full_output: Literal[True],
     force_python_optimiser: bool = ...,
-) -> FullOutput[list[float]]:
+) -> ShinOptimisationDetails[list[float]]:
     ...
 
 
@@ -115,7 +115,7 @@ def calculate_implied_probabilities(
     convergence_threshold: float = ...,
     full_output: Literal[True],
     force_python_optimiser: bool = ...,
-) -> FullOutput[dict[T, float]]:
+) -> ShinOptimisationDetails[dict[T, float]]:
     ...
 
 
@@ -127,7 +127,10 @@ def calculate_implied_probabilities(
     full_output: bool = False,
     force_python_optimiser: bool = False,
 ) -> (
-    FullOutput[list[float]] | FullOutput[dict[T, float]] | list[float] | dict[T, float]
+    ShinOptimisationDetails[list[float]]
+    | ShinOptimisationDetails[dict[T, float]]
+    | list[float]
+    | dict[T, float]
 ):
     odds_seq = odds.values() if isinstance(odds, Mapping) else odds
 
@@ -166,7 +169,7 @@ def calculate_implied_probabilities(
     if isinstance(odds, Mapping):
         d = {k: v for k, v in zip(odds, p_gen)}
         if full_output:
-            return FullOutput(
+            return ShinOptimisationDetails(
                 implied_probabilities=d,
                 iterations=iterations,
                 delta=delta,
@@ -176,7 +179,7 @@ def calculate_implied_probabilities(
 
     l = list(p_gen)
     if full_output:
-        return FullOutput(
+        return ShinOptimisationDetails(
             implied_probabilities=l,
             iterations=iterations,
             delta=delta,
