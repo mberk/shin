@@ -79,7 +79,7 @@ def test_calculate_implied_probabilities_two_outcomes() -> None:
 
 
 def test_full_output_get_item_interface() -> None:
-    full_output = shin.FullOutput(
+    full_output = shin.ShinOptimisationDetails(
         implied_probabilities=[0.3, 0.4, 0.3], iterations=10, delta=0.1, z=0.5
     )
     assert full_output["implied_probabilities"] == [0.3, 0.4, 0.3]
