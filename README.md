@@ -37,15 +37,15 @@ shin.calculate_implied_probabilities([2.6, 2.4, 4.3], full_output=True)
 ```
 
 ```
-{'implied_probabilities': [0.37299406033208965,
-  0.4047794109200184,
-  0.2222265287474275],
- 'iterations': 425,
- 'delta': 9.667822098435863e-13,
- 'z': 0.01694251276407055}
+ShinOptimisationDetails(
+    implied_probabilities=[0.37299406033208965, 0.4047794109200184, 0.2222265287474275],
+    iterations=426,
+    delta=9.667822098435863e-13,
+    z=0.01694251276407055
+)
 ```
 
-The returned `dict` contains the following fields:
+The returned object contains the following fields:
 
 * `implied_probablities`
 * `iterations` - compare this value to the `max_iterations` argument (default = `1000`) to check for failed convergence
@@ -63,13 +63,59 @@ shin.calculate_implied_probabilities([1.5, 2.74], full_output=True)
 ```
 
 ```
-{'implied_probabilities': [0.6508515815085157, 0.3491484184914841],
- 'iterations': 0,
- 'delta': 0,
- 'z': 0.03172728540646625}
+ShinOptimisationDetails(
+    implied_probabilities=[0.6508515815085157, 0.3491484184914841],
+    iterations=0.0,
+    delta=0.0,
+    z=0.03172728540646625
+)
 ```
 
 Note that with two outcomes, Shin's method is equivalent to the Additive Method of [[5](#5)].
+
+# What's New in Version 0.2.0?
+
+The latest version improves support for static typing and includes a breaking change.
+
+## Breaking Change To `calculate_implied_probabilities()` Signature
+
+All arguments to `calculate_implied_probabilities()` other than `odds` are now keyword only arguments. This change
+simplified declaration of overloads to support typing the function's return value and will allow for more flexibility
+in the API.
+
+```py
+from shin import calculate_implied_probabilities
+
+# still works
+calculate_implied_probabilities([2.0, 2.0])
+calculate_implied_probabilities(odds=[2.0, 2.0])
+calculate_implied_probabilities([2.0, 2.0], full_output=True)
+## also any other combination of passing arguments as keyword args remains the same
+
+# passing any arg other than `odds` as positional is now an error
+calculate_implied_probabilibies([2.0, 2.0], 1000)  # Error
+calculate_implied_probabilities([2.0, 2.0], max_iterations=1000)  # OK
+
+
+calculate_impolied_probabilities([2.0, 2.0], 1000, 1e-12, True) # Error
+calculate_implied_probabilities([2.0, 2.0], max_iterations=1000, convergence_threshold=1e-12, full_output=True)  # OK
+```
+
+See [this commit](https://github.com/mberk/shin/commit/06a4ce90fc9bb047cef4e70d8a429b69a6cfd181) for more details.
+
+## Full Output Type
+
+The `full_output` argument now returns a `ShinOptimisationDetails` object instead of a `dict`. This object is a
+`dataclass` with the same fields as the `dict` that was previously returned.
+
+For the read-only case, the `ShinOptimisationDetails` object can be used as a drop-in replacement for the `dict` that
+was previously returned as it supports `__getitem__()`.
+
+This change was introduced to support generic typing of the `implied_probabilities`, currently not supported by
+`TypedDict` in versions of Python < 3.11.
+
+See [this](https://github.com/mberk/shin/commit/467d88954d5ca958b6a1b73c9c4af412725b4d4a) and
+[this](https://github.com/mberk/shin/commit/c9b6e42b9d791fa4e4219a993f0dd2524ceaa1b5) for more details.
 
 # What's New in Version 0.1.0?
 
