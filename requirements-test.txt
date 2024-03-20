@@ -1,4 +1,4 @@
-black==23.10.1
+black==24.3.0
 mypy==1.8.0
 pytest==7.4.3
 pytest-mypy-plugins==3.0.0
