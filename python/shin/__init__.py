@@ -43,20 +43,16 @@ class ShinOptimisationDetails(Generic[OutputT]):
     z: float
 
     @overload
-    def __getitem__(self, key: Literal["implied_probabilities"]) -> OutputT:
-        ...
+    def __getitem__(self, key: Literal["implied_probabilities"]) -> OutputT: ...
 
     @overload
-    def __getitem__(self, key: Literal["iterations"]) -> float:
-        ...
+    def __getitem__(self, key: Literal["iterations"]) -> float: ...
 
     @overload
-    def __getitem__(self, key: Literal["delta"]) -> float:
-        ...
+    def __getitem__(self, key: Literal["delta"]) -> float: ...
 
     @overload
-    def __getitem__(self, key: Literal["z"]) -> float:
-        ...
+    def __getitem__(self, key: Literal["z"]) -> float: ...
 
     def __getitem__(
         self, key: Literal["implied_probabilities", "iterations", "delta", "z"]
@@ -76,8 +72,7 @@ def calculate_implied_probabilities(
     convergence_threshold: float = ...,
     full_output: Literal[False] = False,
     force_python_optimiser: bool = ...,
-) -> list[float]:
-    ...
+) -> list[float]: ...
 
 
 # mapping, full output False
@@ -89,8 +84,7 @@ def calculate_implied_probabilities(
     convergence_threshold: float = ...,
     full_output: Literal[False] = False,
     force_python_optimiser: bool = ...,
-) -> dict[T, float]:
-    ...
+) -> dict[T, float]: ...
 
 
 # sequence, full output True
@@ -102,8 +96,7 @@ def calculate_implied_probabilities(
     convergence_threshold: float = ...,
     full_output: Literal[True],
     force_python_optimiser: bool = ...,
-) -> ShinOptimisationDetails[list[float]]:
-    ...
+) -> ShinOptimisationDetails[list[float]]: ...
 
 
 # mapping, full output True
@@ -115,8 +108,7 @@ def calculate_implied_probabilities(
     convergence_threshold: float = ...,
     full_output: Literal[True],
     force_python_optimiser: bool = ...,
-) -> ShinOptimisationDetails[dict[T, float]]:
-    ...
+) -> ShinOptimisationDetails[dict[T, float]]: ...
 
 
 def calculate_implied_probabilities(
