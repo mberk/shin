@@ -6,6 +6,9 @@ on:
 
 jobs:
   linux:
+    strategy:
+      matrix:
+        target: [x86_64, aarch64]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -13,6 +16,7 @@ jobs:
       with:
         manylinux: auto
         command: build
+        target: ${{ matrix.target }}
         args: --release --sdist -o dist --find-interpreter
     - name: Upload wheels
       uses: actions/upload-artifact@v2
