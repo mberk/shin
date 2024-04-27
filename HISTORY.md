@@ -1,5 +1,15 @@
 # Release History
 
+## 0.2.0 - 2024-04-27
+
+### Added
+
+* Add aarch64 as a target for Linux
+
+### Changed
+
+* Improved typing (see #2, #4)
+
 ## 0.1.0 - 2023-11-03
 
 ### Changed
