@@ -8,7 +8,7 @@
 
 ### Changed
 
-* Improved typing (see #2, #4)
+* Improved typing (see https://github.com/mberk/shin/issues/2, https://github.com/mberk/shin/issues/4)
 
 ## 0.1.0 - 2023-11-03
 
