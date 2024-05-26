@@ -9,19 +9,26 @@ jobs:
     strategy:
       matrix:
         target: [x86_64, aarch64]
+        manylinux: [auto]
+        include:
+          - target: x86_64
+            manylinux: musllinux_1_1
+          - target: aarch64
+            manylinux: musllinux_1_1
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - uses: PyO3/maturin-action@v1
       with:
-        manylinux: auto
+        manylinux: ${{ matrix.manylinux }}
         command: build
         target: ${{ matrix.target }}
-        args: --release --sdist -o dist --find-interpreter
+        # https://github.com/PyO3/maturin-action/issues/56
+        args: --release --sdist -o dist --interpreter 3.9 3.10 3.11 3.12 pypy3.9 pypy3.10
     - name: Upload wheels
       uses: actions/upload-artifact@v4
       with:
-        name: wheels_${{ matrix.target }}
+        name: wheels_${{ matrix.target }}_${{ matrix.manylinux }}
         path: dist
 
   windows:
