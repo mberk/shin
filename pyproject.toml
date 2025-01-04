@@ -1,5 +1,5 @@
 [build-system]
-requires = ["maturin>=0.13,<0.14"]
+requires = ["maturin>=1.0,<2.0"]
 build-backend = "maturin"
 
 [project]
@@ -14,10 +14,16 @@ classifiers = [
 ]
 version = "0.2.0"
 description = "Python implementation of Shin's method for calculating implied probabilities from bookmaker odds"
-author = "Maurice Berk"
-author_email = "maurice@mauriceberk.com"
-url = "https://github.com/mberk/shin"
+authors = [
+    {name = "Maurice Berk", email = "maurice@mauriceberk.com"},
+]
 readme = "README.md"
+
+[project.urls]
+Repository = "https://github.com/mberk/shin"
+
+[tool.maturin]
+python-source = "python"
 
 [tool.mypy]
 python_version = "3.9"
