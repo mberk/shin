@@ -12,7 +12,7 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent"
 ]
-version = "0.2.0"
+version = "0.2.1"
 description = "Python implementation of Shin's method for calculating implied probabilities from bookmaker odds"
 authors = [
     {name = "Maurice Berk", email = "maurice@mauriceberk.com"},
