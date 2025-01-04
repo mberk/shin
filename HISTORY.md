@@ -1,5 +1,11 @@
 # Release History
 
+## 0.2.1 - 2025-01-04
+
+### Changed
+
+* Improved CI
+
 ## 0.2.0 - 2024-04-27
 
 ### Added
