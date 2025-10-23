@@ -9,10 +9,11 @@ classifiers = [
     "Programming Language :: Rust",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
+    "Programming Language :: Python :: 3.13",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent"
 ]
-version = "0.2.1"
+version = "0.2.2"
 description = "Python implementation of Shin's method for calculating implied probabilities from bookmaker odds"
 authors = [
     {name = "Maurice Berk", email = "maurice@mauriceberk.com"},

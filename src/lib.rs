@@ -30,7 +30,7 @@ fn optimise(
 /// Fast calculations for Shin's method
 #[pymodule]
 #[pyo3(name = "shin")]
-fn shin(_py: Python, m: &PyModule) -> PyResult<()> {
+fn shin(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(optimise, m)?)?;
     Ok(())
 }
