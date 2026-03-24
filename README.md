@@ -7,7 +7,7 @@ of dividing the inverse odds by the booksum [[3](#3)].
 
 # Installation
 
-Requires Python 3.9 or above (including Python 3.13).
+Requires Python 3.10 or above.
 
 ```
 pip install shin
