@@ -24,7 +24,7 @@ jobs:
         command: build
         target: ${{ matrix.target }}
         # https://github.com/PyO3/maturin-action/issues/56
-        args: --release --sdist -o dist --interpreter 3.9 3.10 3.11 3.12 pypy3.9 pypy3.10
+        args: --release --sdist -o dist --interpreter 3.9 3.10 3.11 3.12 3.13 3.14 pypy3.9 pypy3.10
     - name: Upload wheels
       uses: actions/upload-artifact@v4
       with:
