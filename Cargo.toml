@@ -9,7 +9,7 @@ name = "shin"
 crate-type = ["cdylib"]
 
 [dependencies]
-pyo3 = { version = "0.24", features = ["extension-module"] }
+pyo3 = { version = "0.25", features = ["extension-module"] }
 
 [package.metadata.maturin]
 python-source = "python"
